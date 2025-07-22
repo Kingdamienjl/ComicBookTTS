@@ -1,0 +1,10 @@
+# Android
+.gradle/
+.idea/
+*.iml
+/build/
+app/build/
+local.properties
+
+# Keys
+keys/*.env
