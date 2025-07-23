@@ -1,12 +1,13 @@
 package com.example.comicreader
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.github.chrisbanes.photoview.PhotoView
 
-class ComicPageAdapter(private val images: List<Int>) :
+class ComicPageAdapter(private val images: List<Uri>) :
     RecyclerView.Adapter<ComicPageAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -20,7 +21,11 @@ class ComicPageAdapter(private val images: List<Int>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.imageView.setImageResource(images[position])
+        holder.imageView.setImageURI(images[position])
+        
+        // Enable zooming and panning
+        holder.imageView.maximumScale = 5.0f
+        holder.imageView.mediumScale = 2.5f
     }
 
     override fun getItemCount() = images.size

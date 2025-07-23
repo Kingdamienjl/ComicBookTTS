@@ -1,11 +1,79 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp"
-    android:background="#121212">
+    android:layout_height="match_match_parent"
+    android:background="@color/background_dark"
+    tools:context=".ReaderActivity">
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/controlsPanel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/controlsPanel"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</RelativeLayout>
+        android:layout_height="wrap_content"
+        android:background="#33000000"
+        android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPlayTts"
+            style="@style/Widget.MaterialComponents.Button.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/play_tts"
+            app:icon="@android:drawable/ic_media_play"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btnStopTts"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnStopTts"
+            style="@style/Widget.MaterialComponents.Button.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/stop_tts"
+            app:icon="@android:drawable/ic_media_pause"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/switchAutoPlay"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/btnPlayTts"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switchAutoPlay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/auto_play"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/btnStopTts"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

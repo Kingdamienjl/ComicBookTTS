@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Comic Book TTS</string>
+    <string name="open_comic">Open Comic</string>
+    <string name="recent_comics">Recent Comics</string>
+    <string name="play_tts">Play TTS</string>
+    <string name="pause_tts">Pause TTS</string>
+    <string name="stop_tts">Stop TTS</string>
+    <string name="auto_play">Auto Play</string>
+    <string name="settings">Settings</string>
+    <string name="api_key">ElevenLabs API Key</string>
+    <string name="save">Save</string>
+    <string name="api_key_hint">Enter your ElevenLabs API key</string>
+    <string name="no_comics">No recent comics</string>
+    <string name="loading">Loading...</string>
+    <string name="error_loading">Error loading comic</string>
+    <string name="error_tts">Error with Text-to-Speech</string>
+    <string name="test_api_key">Test API Key</string>
+</resources>
