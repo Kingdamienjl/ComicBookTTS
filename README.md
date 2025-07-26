@@ -32,11 +32,3 @@ A simple Android comic book reader that supports `.CBR` and `.CBZ` files, featur
 
 
 ---
-
-### 📌 Next Steps:
-1. Paste this into your `README.md`
-2. Run:
-```bash
-git add README.md
-git rebase --continue
-git push -u origin main
