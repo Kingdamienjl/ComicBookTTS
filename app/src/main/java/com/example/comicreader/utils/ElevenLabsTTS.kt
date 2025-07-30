@@ -12,7 +12,7 @@ class ElevenLabsTTS(private val context: Context) {
 
     private val client = OkHttpClient()
     private var mediaPlayer: MediaPlayer? = null
-    private var isPlaying = false
+    private var _isPlaying = false
     private var currentFile: File? = null
     private val preferenceManager = PreferenceManager(context)
 
@@ -41,7 +41,7 @@ class ElevenLabsTTS(private val context: Context) {
 
         val apiKey = preferenceManager.getApiKey()
         if (apiKey.isBlank()) {
-            callback.onError("ElevenLabs API key not set. Please set it in Settings.")
+            callback.onError("ElevenLabs API key not configured. Please set your API key in Settings.\n\nTo get an API key:\n1. Visit https://elevenlabs.io\n2. Sign up for an account\n3. Go to Profile & API Key\n4. Copy your API key\n5. Paste it in the app Settings")
             return
         }
 
@@ -123,17 +123,17 @@ class ElevenLabsTTS(private val context: Context) {
             mediaPlayer = MediaPlayer().apply {
                 setDataSource(file.absolutePath)
                 setOnCompletionListener {
-                    isPlaying = false
+                    _isPlaying = false
                     callback.onComplete()
                 }
                 setOnErrorListener { _, _, _ ->
-                    isPlaying = false
+                    _isPlaying = false
                     callback.onError("Error playing audio")
                     true
                 }
                 prepare()
                 start()
-                isPlaying = true
+                _isPlaying = true
             }
         } catch (e: Exception) {
             Log.e(TAG, "Error playing audio: ${e.message}")
@@ -146,20 +146,20 @@ class ElevenLabsTTS(private val context: Context) {
      */
     fun stop() {
         mediaPlayer?.apply {
-            if (isPlaying) {
+            if (_isPlaying) {
                 stop()
             }
             release()
         }
         mediaPlayer = null
-        isPlaying = false
+        _isPlaying = false
     }
 
     /**
      * Check if TTS is currently playing
      */
     fun isPlaying(): Boolean {
-        return isPlaying
+        return _isPlaying
     }
 
     /**

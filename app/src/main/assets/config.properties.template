@@ -1,0 +1,22 @@
+# ComicBookTTS Configuration Template
+# Copy this file to config.properties and add your actual API key
+
+# ElevenLabs API Configuration
+# Get your API key from: https://elevenlabs.io/app/speech-synthesis
+elevenlabs.api.key=YOUR_API_KEY_HERE
+
+# Voice Configuration
+elevenlabs.voice.id=IRHApOXLvnW57QJPQH2P
+elevenlabs.model=eleven_monolingual_v1
+
+# Voice Settings
+elevenlabs.stability=0.5
+elevenlabs.similarity_boost=0.75
+
+# OCR Settings
+ocr.max_image_dimension=2048
+ocr.enable_preprocessing=true
+
+# App Settings
+app.auto_play_delay_ms=1000
+app.max_recent_comics=10

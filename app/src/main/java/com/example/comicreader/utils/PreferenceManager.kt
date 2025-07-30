@@ -18,7 +18,19 @@ class PreferenceManager(context: Context) {
     }
 
     fun getApiKey(): String {
-        return sharedPreferences.getString(KEY_API_KEY, "sk_7259ee9339e963866db730b0ad794b8f7db2cc5c82cbd9c7") ?: "sk_7259ee9339e963866db730b0ad794b8f7db2cc5c82cbd9c7"
+        // First check SharedPreferences for user-set API key
+        val savedKey = sharedPreferences.getString(KEY_API_KEY, null)
+        if (!savedKey.isNullOrBlank()) {
+            return savedKey
+        }
+        
+        // Return empty string if no API key is set - user must configure it
+        return ""
+    }
+    
+    fun hasApiKey(): Boolean {
+        val apiKey = getApiKey()
+        return apiKey.isNotBlank()
     }
 
     fun addRecentComic(comic: ComicBook) {
