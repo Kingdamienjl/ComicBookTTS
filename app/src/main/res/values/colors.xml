@@ -1,15 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#3F51B5</color>
-    <color name="primary_dark">#303F9F</color>
-    <color name="primary_light">#C5CAE9</color>
-    <color name="accent">#FF4081</color>
-    <color name="primary_text">#212121</color>
-    <color name="secondary_text">#757575</color>
-    <color name="icons">#FFFFFF</color>
-    <color name="divider">#BDBDBD</color>
-    <color name="background_dark">#121212</color>
-    <color name="background_light">#FAFAFA</color>
+    <!-- Comic Book Primary Colors -->
+    <color name="primary">#FF1976D2</color>
+    <color name="primary_color">#FF1976D2</color>
+    <color name="primary_dark">#FF0D47A1</color>
+    <color name="primary_light">#FF42A5F5</color>
+
+    <!-- Comic Book Accent Colors -->
+    <color name="accent">#FFFF5722</color>
+    <color name="accent_light">#FFFF8A65</color>
+    <color name="accent_dark">#FFD84315</color>
+
+    <!-- Comic Book Secondary Colors -->
+    <color name="secondary">#FF4CAF50</color>
+    <color name="secondary_light">#FF81C784</color>
+    <color name="secondary_dark">#FF2E7D32</color>
+
+    <!-- Comic Book Warning/Action Colors -->
+    <color name="comic_yellow">#FFFFC107</color>
+    <color name="comic_red">#FFF44336</color>
+    <color name="comic_purple">#FF9C27B0</color>
+    <color name="comic_cyan">#FF00BCD4</color>
+
+    <!-- Text Colors -->
+    <color name="primary_text">#FF212121</color>
+    <color name="secondary_text">#FF757575</color>
+    <color name="white_text">#FFFFFFFF</color>
+    <color name="comic_text_dark">#FF1A1A1A</color>
+
+    <!-- Background Colors -->
+    <color name="background_dark">#FF121212</color>
+    <color name="background_light">#FFFAFAFA</color>
+    <color name="comic_background">#FFF5F5F5</color>
+    <color name="speech_bubble">#FFFFFFFF</color>
+
+    <!-- UI Element Colors -->
+    <color name="icons">#FFFFFFFF</color>
+    <color name="divider">#FFBDBDBD</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Comic Book Panel Colors -->
+    <color name="panel_border">#FF424242</color>
+    <color name="panel_background">#FFFFFFFF</color>
+    <color name="panel_shadow">#33000000</color>
+
+    <!-- Button Colors -->
+    <color name="button_comic_primary">#FF1976D2</color>
+    <color name="button_comic_secondary">#FFFF5722</color>
+    <color name="button_comic_success">#FF4CAF50</color>
+    <color name="button_comic_warning">#FFFFC107</color>
+    <color name="button_comic_danger">#FFF44336</color>
 </resources>

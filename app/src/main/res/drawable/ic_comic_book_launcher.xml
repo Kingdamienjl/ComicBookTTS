@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    
+    <!-- Background circle with comic book gradient -->
+    <path
+        android:fillColor="#FF1976D2"
+        android:pathData="M54,54m-54,0a54,54 0,1 1,108 0a54,54 0,1 1,-108 0" />
+    
+    <!-- Comic book pages -->
+    <group android:translateX="20" android:translateY="20">
+        <!-- Back page -->
+        <path
+            android:fillColor="#FFEEEEEE"
+            android:pathData="M8,12 L60,12 L60,76 L8,76 Z"
+            android:strokeColor="#FF424242"
+            android:strokeWidth="2" />
+        
+        <!-- Middle page -->
+        <path
+            android:fillColor="#FFFFFFFF"
+            android:pathData="M12,8 L64,8 L64,72 L12,72 Z"
+            android:strokeColor="#FF424242"
+            android:strokeWidth="2" />
+        
+        <!-- Front page -->
+        <path
+            android:fillColor="#FFFFFFFF"
+            android:pathData="M16,4 L68,4 L68,68 L16,68 Z"
+            android:strokeColor="#FF1976D2"
+            android:strokeWidth="3" />
+        
+        <!-- Comic panel lines -->
+        <path
+            android:strokeColor="#FF1976D2"
+            android:strokeWidth="2"
+            android:pathData="M20,20 L64,20 M20,36 L64,36 M42,20 L42,52" />
+        
+        <!-- Speech bubble -->
+        <path
+            android:fillColor="#FFFFFF"
+            android:strokeColor="#FF1976D2"
+            android:strokeWidth="2"
+            android:pathData="M42,28 Q42,22 52,22 Q62,22 62,28 Q62,34 52,34 Q42,34 42,28 Z" />
+        
+        <!-- Speech bubble tail -->
+        <path
+            android:fillColor="#FFFFFF"
+            android:strokeColor="#FF1976D2"
+            android:strokeWidth="2"
+            android:pathData="M48,32 L46,36 L50,34 Z" />
+        
+        <!-- TTS sound waves -->
+        <path
+            android:strokeColor="#FFFF5722"
+            android:strokeWidth="2"
+            android:strokeLineCap="round"
+            android:pathData="M24,44 Q28,40 32,44 Q36,48 40,44" />
+        
+        <path
+            android:strokeColor="#FFFF5722"
+            android:strokeWidth="2"
+            android:strokeLineCap="round"
+            android:pathData="M24,52 Q30,48 36,52 Q42,56 48,52" />
+    </group>
+</vector>

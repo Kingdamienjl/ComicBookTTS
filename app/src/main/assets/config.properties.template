@@ -1,17 +1,17 @@
 # ComicBookTTS Configuration Template
-# Copy this file to config.properties and add your actual API key
+# Copy this file to config.properties and configure your settings
 
-# ElevenLabs API Configuration
-# Get your API key from: https://elevenlabs.io/app/speech-synthesis
-elevenlabs.api.key=YOUR_API_KEY_HERE
+# Android TTS Configuration
+# These settings control the built-in Android Text-to-Speech engine
+tts.speech_rate=1.0
+tts.pitch=1.0
+tts.preferred_engine=com.google.android.tts
+tts.voice_quality=high
 
-# Voice Configuration
-elevenlabs.voice.id=IRHApOXLvnW57QJPQH2P
-elevenlabs.model=eleven_monolingual_v1
-
-# Voice Settings
-elevenlabs.stability=0.5
-elevenlabs.similarity_boost=0.75
+# Voice Character Settings for Comics
+tts.dialogue_rate=0.9
+tts.narration_rate=0.8
+tts.sound_effects_enabled=false
 
 # OCR Settings
 ocr.max_image_dimension=2048

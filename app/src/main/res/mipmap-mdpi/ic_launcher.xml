@@ -3,12 +3,46 @@
     android:height="48dp"
     android:viewportWidth="48"
     android:viewportHeight="48">
-  <path android:fillColor="#3DDC84"
-        android:pathData="M0,0h48v48h-48z"/>
-  <path android:fillColor="#00000000"
-        android:pathData="M4,0L4,48L44,48L44,0L4,0ZM36,40L12,40L12,8L36,8L36,40Z"/>
-  <path android:fillColor="#00000000"
-        android:pathData="M15,13L33,13L33,16L15,16L15,13ZM15,19L33,19L33,22L15,22L15,19ZM15,25L33,25L33,28L15,28L15,25ZM15,31L33,31L33,34L15,34L15,31Z"/>
-  <path android:fillColor="#FF6200EE"
-        android:pathData="M20,35L28,35L28,37L20,37L20,35Z"/>
+
+    <!-- Background circle with comic book gradient -->
+    <path
+        android:fillColor="#FF1976D2"
+        android:pathData="M24,24m-24,0a24,24 0,1 1,48 0a24,24 0,1 1,-48 0" />
+
+    <!-- Comic book pages -->
+    <group android:translateX="8" android:translateY="8">
+        <!-- Back page -->
+        <path
+            android:fillColor="#FFEEEEEE"
+            android:pathData="M4,6 L28,6 L28,36 L4,36 Z"
+            android:strokeColor="#FF424242"
+            android:strokeWidth="1" />
+
+        <!-- Front page -->
+        <path
+            android:fillColor="#FFFFFFFF"
+            android:pathData="M6,4 L30,4 L30,34 L6,34 Z"
+            android:strokeColor="#FF1976D2"
+            android:strokeWidth="1.5" />
+
+        <!-- Comic panel lines -->
+        <path
+            android:strokeColor="#FF1976D2"
+            android:strokeWidth="1"
+            android:pathData="M8,12 L28,12 M8,20 L28,20 M18,12 L18,28" />
+
+        <!-- Speech bubble -->
+        <path
+            android:fillColor="#FFFFFF"
+            android:strokeColor="#FF1976D2"
+            android:strokeWidth="1"
+            android:pathData="M18,16 Q18,13.5 22,13.5 Q26,13.5 26,16 Q26,18.5 22,18.5 Q18,18.5 18,16 Z" />
+
+        <!-- TTS sound waves -->
+        <path
+            android:strokeColor="#FFFF5722"
+            android:strokeWidth="1"
+            android:strokeLineCap="round"
+            android:pathData="M10,24 Q12,22 14,24 Q16,26 18,24" />
+    </group>
 </vector>

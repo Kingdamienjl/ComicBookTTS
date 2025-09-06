@@ -19,59 +19,246 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:title="@string/settings" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilApiKey"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+    <!-- TTS Information -->
+    <TextView
+        android:id="@+id/tvTtsInfo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
-        android:hint="@string/api_key_hint"
+        android:text="ComicTTS now uses Android's built-in Text-to-Speech engine. No API keys required - completely free!"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:background="@android:color/transparent"
+        android:padding="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etApiKey"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword" />
-    </com.google.android.material.textfield.TextInputLayout>
-
+    <!-- Reading Settings Section -->
     <TextView
-        android:id="@+id/tvApiKeyInfo"
+        android:id="@+id/tvReadingSettings"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:text="Reading Settings"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTtsInfo" />
+
+    <!-- Reading Speed -->
+    <TextView
+        android:id="@+id/tvReadingSpeedLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="Reading Speed"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvReadingSettings" />
+
+    <SeekBar
+        android:id="@+id/seekBarReadingSpeed"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:text="Enter your ElevenLabs API key to enable text-to-speech functionality. You can get an API key from elevenlabs.io"
-        android:textSize="12sp"
+        android:max="25"
+        android:progress="10"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tilApiKey" />
+        app:layout_constraintTop_toBottomOf="@+id/tvReadingSpeedLabel" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnSave"
+    <TextView
+        android:id="@+id/tvReadingSpeedValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="@string/save"
-        app:layout_constraintEnd_toStartOf="@+id/btnTest"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvApiKeyInfo" />
-        
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnTest"
-        android:layout_width="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="1.0x"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@+id/seekBarReadingSpeed"
+        app:layout_constraintTop_toBottomOf="@+id/seekBarReadingSpeed" />
+
+    <!-- OCR Settings Section -->
+    <TextView
+        android:id="@+id/tvOcrSettings"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
-        android:text="@string/test_api_key"
+        android:layout_marginEnd="16dp"
+        android:text="OCR Settings"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btnSave"
-        app:layout_constraintTop_toBottomOf="@+id/tvApiKeyInfo" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvReadingSpeedValue" />
+
+    <!-- OCR Sensitivity -->
+    <TextView
+        android:id="@+id/tvOcrSensitivityLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="OCR Sensitivity"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvOcrSettings" />
+
+    <SeekBar
+        android:id="@+id/seekBarOcrSensitivity"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:max="10"
+        android:progress="5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvOcrSensitivityLabel" />
+
+    <TextView
+        android:id="@+id/tvOcrSensitivityValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Medium"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@+id/seekBarOcrSensitivity"
+        app:layout_constraintTop_toBottomOf="@+id/seekBarOcrSensitivity" />
+
+    <!-- OCR Quality Indicator -->
+    <TextView
+        android:id="@+id/tvOcrQualityInfo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:text="Higher sensitivity detects more text but may include noise. Lower sensitivity is more selective."
+        android:textSize="11sp"
+        android:textColor="@android:color/darker_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvOcrSensitivityValue" />
+
+    <!-- Premium TTS Section -->
+    <TextView
+        android:id="@+id/tvPremiumTtsSettings"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:text="Premium Voice Quality (Optional)"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvOcrQualityInfo" />
+
+    <!-- Premium TTS Toggle -->
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switchPremiumTts"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="Enable Premium Cloud TTS"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvPremiumTtsSettings" />
+
+    <TextView
+        android:id="@+id/tvPremiumTtsInfo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:text="Optional: Use your own Google Cloud TTS API key for premium voice quality. Falls back to free Android TTS if unavailable."
+        android:textSize="12sp"
+        android:textColor="@android:color/darker_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/switchPremiumTts" />
+
+    <!-- Cloud API Key Input (Initially Hidden) -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilCloudApiKey"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:hint="Google Cloud TTS API Key (Optional)"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvPremiumTtsInfo">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etCloudApiKey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Test Cloud TTS Button (Initially Hidden) -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnTestCloudTts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Test Premium TTS"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tilCloudApiKey" />
+
+    <!-- Connection Status -->
+    <TextView
+        android:id="@+id/tvConnectionStatus"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:text="Connection Status: Checking..."
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnTestCloudTts" />
+
+    <!-- Usage Statistics -->
+    <TextView
+        android:id="@+id/tvUsageStats"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="Usage: Native TTS only"
+        android:textSize="12sp"
+        android:textColor="@android:color/darker_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvConnectionStatus" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -25,32 +25,64 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
+        <!-- First row of controls -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnPlayTts"
             style="@style/Widget.MaterialComponents.Button.Icon"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
             android:text="@string/play_tts"
             app:icon="@android:drawable/ic_media_play"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/readingProgressBar"
             app:layout_constraintEnd_toStartOf="@+id/btnStopTts"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnStopTts"
             style="@style/Widget.MaterialComponents.Button.Icon"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
             android:text="@string/stop_tts"
             app:icon="@android:drawable/ic_media_pause"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/switchAutoPlay"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintBottom_toTopOf="@+id/readingProgressBar"
+            app:layout_constraintEnd_toStartOf="@+id/btnPauseReading"
             app:layout_constraintStart_toEndOf="@+id/btnPlayTts"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPauseReading"
+            style="@style/Widget.MaterialComponents.Button.Icon"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="Pause"
+            app:icon="@android:drawable/ic_media_pause"
+            app:layout_constraintBottom_toTopOf="@+id/readingProgressBar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btnStopTts"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Reading progress bar -->
+        <ProgressBar
+            android:id="@+id/readingProgressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:progress="0"
+            android:max="100"
+            android:progressTint="@color/primary_color"
+            app:layout_constraintBottom_toTopOf="@+id/switchAutoPlay"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnPlayTts" />
+
+        <!-- Second row of controls -->
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/switchAutoPlay"
             android:layout_width="wrap_content"
@@ -58,10 +90,48 @@
             android:text="@string/auto_play"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tvReadingSpeed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/readingProgressBar" />
+
+        <TextView
+            android:id="@+id/tvReadingSpeed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Speed: 1.0x"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btnSpeedDown"
+            app:layout_constraintStart_toEndOf="@+id/switchAutoPlay"
+            app:layout_constraintTop_toBottomOf="@+id/readingProgressBar" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSpeedDown"
+            style="@style/Widget.MaterialComponents.Button.Icon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="4dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:text="-"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btnSpeedUp"
+            app:layout_constraintTop_toBottomOf="@+id/readingProgressBar" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSpeedUp"
+            style="@style/Widget.MaterialComponents.Button.Icon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:text="+"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/btnStopTts"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/readingProgressBar" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -4,52 +4,84 @@ plugins {
 }
 
 android {
-    namespace 'com.example.comicreader'
+    namespace 'com.example.comicbooktts'
     compileSdk 34
+
     defaultConfig {
-        applicationId "com.example.comicreader"
+        applicationId "com.example.comicbooktts"
         minSdk 24
         targetSdk 34
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
+        vectorDrawables.useSupportLibrary = true
+        resConfigs "en", "xxhdpi"
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-    buildTypes {
+    
+    signingConfigs {
         release {
+            storeFile file('keystore/release.keystore')
+            storePassword System.getenv("KEYSTORE_PASSWORD") ?: "comicbooktts2024"
+            keyAlias System.getenv("KEY_ALIAS") ?: "comicbooktts"
+            keyPassword System.getenv("KEY_PASSWORD") ?: "comicbooktts2024"
+        }
+    }
+    
+    buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+            debuggable true
             minifyEnabled false
+            shrinkResources false
+        }
+        
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            shrinkResources true
+            zipAlignEnabled true
+            crunchPngs true
+            debuggable false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "boolean", "DEBUG_MODE", "false"
+            manifestPlaceholders = [
+                crashlyticsCollectionEnabled: "true",
+                networkSecurityConfig: "@xml/network_security_config"
+            ]
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_21
-        targetCompatibility JavaVersion.VERSION_21
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = '21'
+        jvmTarget = '17'
     }
     buildFeatures {
         viewBinding true
+        buildConfig true
     }
 }
 
 dependencies {
-    implementation 'androidx.core:core-ktx:1.12.0'
+    implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.11.0'
+    implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.recyclerview:recyclerview:1.3.2'
+    implementation 'androidx.recyclerview:recyclerview:1.3.0'
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
     
     // Image viewing with zoom
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
     
     // Archive extraction
-    implementation 'net.lingala.zip4j:zip4j:2.11.5'
+    implementation 'net.lingala.zip4j:zip4j:2.11.2'
     implementation 'com.github.junrar:junrar:7.5.4'
     
     // HTTP client for API calls
-    implementation 'com.squareup.okhttp3:okhttp:4.12.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.12.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.10.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.10.0'
     
     // JSON parsing
     implementation 'com.google.code.gson:gson:2.10.1'
@@ -58,22 +90,25 @@ dependencies {
     implementation 'com.google.mlkit:text-recognition:16.0.0'
     
     // Permissions
-    implementation 'androidx.activity:activity-ktx:1.8.2'
+    implementation 'androidx.activity:activity-ktx:1.6.1'
     
     // Coroutines
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
     
     // Testing dependencies
     testImplementation 'junit:junit:4.13.2'
-    testImplementation 'org.mockito:mockito-core:5.8.0'
-    testImplementation 'org.mockito:mockito-kotlin:5.2.1'
-    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3'
-    testImplementation 'androidx.arch.core:core-testing:2.2.0'
+    testImplementation 'org.mockito:mockito-core:4.11.0'
+    testImplementation 'org.mockito.kotlin:mockito-kotlin:4.1.0'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4'
+    testImplementation 'androidx.arch.core:core-testing:2.1.0'
+    testImplementation 'androidx.test:core:1.5.0'
+    testImplementation 'androidx.test.ext:junit:1.1.5'
+    testImplementation 'org.robolectric:robolectric:4.10.3'
     
     // Android testing dependencies
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     androidTestImplementation 'androidx.test:runner:1.5.2'
     androidTestImplementation 'androidx.test:rules:1.5.0'
-    androidTestImplementation 'org.mockito:mockito-android:5.8.0'
+    androidTestImplementation 'org.mockito:mockito-android:4.11.0'
 }

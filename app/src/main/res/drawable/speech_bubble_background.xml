@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Shadow -->
+    <item android:top="1dp" android:left="1dp">
+        <shape android:shape="oval">
+            <solid android:color="@color/panel_shadow" />
+        </shape>
+    </item>
+    
+    <!-- Main bubble -->
+    <item android:bottom="1dp" android:right="1dp">
+        <shape android:shape="oval">
+            <solid android:color="@color/speech_bubble" />
+            <stroke 
+                android:width="2dp" 
+                android:color="@color/primary" />
+        </shape>
+    </item>
+</layer-list>
