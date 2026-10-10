@@ -1,0 +1,28 @@
+{
+  "DashboardSettings": {
+    "RefreshInterval": 300,
+    "AutoRefresh": true,
+    "ShowBuildLogs": true
+  },
+  "WorkflowName": "CI/CD Pipeline",
+  "NotificationSettings": {
+    "CheckInterval": 300,
+    "EnableDesktop": true,
+    "EmailSettings": {
+      "SMTPServer": "",
+      "ToEmail": "",
+      "SMTPPort": 587,
+      "FromEmail": "",
+      "Username": "",
+      "Password": ""
+    },
+    "EnableEmail": false
+  },
+  "GitHubRepo": "ComicBookTTS",
+  "LocalAPKPaths": [
+    "app\\build\\outputs\\apk\\debug\\app-debug.apk",
+    "app\\build\\outputs\\apk\\release\\app-release.apk",
+    "ComicBookTTS.apk",
+    "ComicBookTTS-v1.0.0-release.apk"
+  ]
+}
