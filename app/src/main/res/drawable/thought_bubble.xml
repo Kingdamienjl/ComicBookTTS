@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Comic thought bubble: cloud feel via dashed black border on white.
+     Rebuilt 2026-10-11 from IMPLEMENTATION_SUMMARY_2026-01.md spec. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#FFFFFF" />
+            <corners android:radius="24dp" />
+            <stroke
+                android:width="4dp"
+                android:color="#000000"
+                android:dashWidth="10dp"
+                android:dashGap="6dp" />
+            <padding
+                android:left="18dp"
+                android:top="14dp"
+                android:right="18dp"
+                android:bottom="14dp" />
+        </shape>
+    </item>
+</layer-list>

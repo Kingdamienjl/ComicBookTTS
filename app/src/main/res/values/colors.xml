@@ -21,6 +21,7 @@
     <color name="comic_red">#FFF44336</color>
     <color name="comic_purple">#FF9C27B0</color>
     <color name="comic_cyan">#FF00BCD4</color>
+    <color name="comic_orange">#FFFF9800</color>
 
     <!-- Text Colors -->
     <color name="primary_text">#FF212121</color>

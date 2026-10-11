@@ -1,13 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Redesigned splash: immersive animated comic experience.
+     Rebuilt 2026-10-11 from IMPLEMENTATION_SUMMARY_2026-01.md spec.
+     - Logo burst background (200x200dp) with rotation animation
+     - Title in speech bubble container with bounce effect
+     - Subtitle in thought bubble with scale animation
+     - 5 comic effect texts with staggered animations -->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/splash_background"
+    android:background="@drawable/comic_halftone_background"
     tools:context=".SplashActivity">
 
-    <!-- Comic Book Logo -->
+    <!-- Logo burst background -->
+    <ImageView
+        android:id="@+id/ivLogoBurst"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:alpha="0"
+        android:contentDescription="Logo burst"
+        android:src="@drawable/comic_burst_background"
+        app:layout_constraintBottom_toTopOf="@+id/titleBubbleContainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <!-- Comic Book Logo (over burst) -->
     <ImageView
         android:id="@+id/ivLogo"
         android:layout_width="120dp"
@@ -16,44 +36,59 @@
         android:contentDescription="Comic TTS Logo"
         android:scaleType="centerInside"
         android:src="@drawable/ic_comic_book_launcher"
-        app:layout_constraintBottom_toTopOf="@+id/tvAppTitle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed" />
+        app:layout_constraintBottom_toBottomOf="@+id/ivLogoBurst"
+        app:layout_constraintEnd_toEndOf="@+id/ivLogoBurst"
+        app:layout_constraintStart_toStartOf="@+id/ivLogoBurst"
+        app:layout_constraintTop_toTopOf="@+id/ivLogoBurst" />
 
-    <!-- App Title -->
-    <TextView
-        android:id="@+id/tvAppTitle"
-        style="@style/ComicTitle"
+    <!-- Title in speech bubble -->
+    <LinearLayout
+        android:id="@+id/titleBubbleContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:alpha="0"
-        android:text="COMIC TTS"
-        android:textColor="@color/white"
-        android:textSize="32sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/tvSubtitle"
+        android:background="@drawable/speech_bubble_left"
+        android:orientation="vertical"
+        android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivLogo" />
+        app:layout_constraintTop_toBottomOf="@+id/ivLogoBurst">
 
-    <!-- Subtitle -->
-    <TextView
-        android:id="@+id/tvSubtitle"
-        style="@style/ComicSubtitle"
+        <TextView
+            android:id="@+id/tvAppTitle"
+            style="@style/ComicTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="COMIC TTS"
+            android:textColor="@color/comic_text_dark"
+            android:textSize="32sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- Subtitle in thought bubble -->
+    <LinearLayout
+        android:id="@+id/subtitleBubbleContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         android:alpha="0"
-        android:text="Read Comics with Voice!"
-        android:textColor="@color/accent_light"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/thought_bubble"
+        android:orientation="vertical"
+        android:padding="6dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvAppTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/titleBubbleContainer">
+
+        <TextView
+            android:id="@+id/tvSubtitle"
+            style="@style/ComicSubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Read Comics with Voice!"
+            android:textColor="@color/comic_text_dark"
+            android:textSize="18sp" />
+    </LinearLayout>
 
     <!-- Loading Text -->
     <TextView
@@ -70,50 +105,84 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <!-- Comic Book Effects -->
+    <!-- Comic effect: POW! (32sp, yellow, -18°) -->
     <TextView
-        android:id="@+id/tvEffect1"
+        android:id="@+id/tvEffectPow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="64dp"
-        android:alpha="0.7"
-        android:rotation="-15"
+        android:alpha="0"
+        android:rotation="-18"
         android:text="POW!"
         android:textColor="@color/comic_yellow"
-        android:textSize="24sp"
+        android:textSize="32sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Comic effect: BOOM! (28sp, red, 15°) -->
     <TextView
-        android:id="@+id/tvEffect2"
+        android:id="@+id/tvEffectBoom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        android:alpha="0.7"
-        android:rotation="12"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="28dp"
+        android:alpha="0"
+        android:rotation="15"
         android:text="BOOM!"
         android:textColor="@color/comic_red"
-        android:textSize="20sp"
+        android:textSize="28sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Comic effect: ZAP! (26sp, purple, 10°) -->
     <TextView
-        android:id="@+id/tvEffect3"
+        android:id="@+id/tvEffectZap"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="48dp"
-        android:layout_marginBottom="120dp"
-        android:alpha="0.6"
-        android:rotation="8"
+        android:layout_marginBottom="140dp"
+        android:alpha="0"
+        android:rotation="10"
         android:text="ZAP!"
         android:textColor="@color/comic_purple"
-        android:textSize="18sp"
+        android:textSize="26sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Comic effect: WHAM! (24sp, cyan, -12°) -->
+    <TextView
+        android:id="@+id/tvEffectWham"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="48dp"
+        android:layout_marginBottom="120dp"
+        android:alpha="0"
+        android:rotation="-12"
+        android:text="WHAM!"
+        android:textColor="@color/comic_cyan"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Comic effect: KAPOW! (30sp, orange, 8°) -->
+    <TextView
+        android:id="@+id/tvEffectKapow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="220dp"
+        android:alpha="0"
+        android:rotation="8"
+        android:text="KAPOW!"
+        android:textColor="@color/comic_orange"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

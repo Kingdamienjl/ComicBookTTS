@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Comic burst background: 3-layer action burst rings for logo splash.
+     Rebuilt 2026-10-11 from IMPLEMENTATION_SUMMARY_2026-01.md spec. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Outer burst ring: yellow -->
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="#FFD600" />
+        </shape>
+    </item>
+    <!-- Middle burst ring: orange, inset -->
+    <item
+        android:left="18dp"
+        android:top="18dp"
+        android:right="18dp"
+        android:bottom="18dp">
+        <shape android:shape="oval">
+            <solid android:color="#FF9100" />
+        </shape>
+    </item>
+    <!-- Inner burst ring: red core -->
+    <item
+        android:left="38dp"
+        android:top="38dp"
+        android:right="38dp"
+        android:bottom="38dp">
+        <shape android:shape="oval">
+            <gradient
+                android:type="radial"
+                android:gradientRadius="60%p"
+                android:centerX="0.5"
+                android:centerY="0.5"
+                android:startColor="#FF5252"
+                android:endColor="#C62828" />
+        </shape>
+    </item>
+</layer-list>

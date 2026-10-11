@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Comic halftone background: radial gradient with dotted halftone feel.
+     Rebuilt 2026-10-11 from IMPLEMENTATION_SUMMARY_2026-01.md spec. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Base radial gradient: deep purple core to near-black edge -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:type="radial"
+                android:gradientRadius="80%p"
+                android:centerX="0.5"
+                android:centerY="0.4"
+                android:startColor="#3B1F5E"
+                android:centerColor="#1E1033"
+                android:endColor="#0B0614" />
+        </shape>
+    </item>
+    <!-- Halftone dot overlay: subtle repeating dot tint via second gradient -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:type="radial"
+                android:gradientRadius="120%p"
+                android:centerX="0.5"
+                android:centerY="0.5"
+                android:startColor="#00000000"
+                android:centerColor="#1AFFFFFF"
+                android:endColor="#00000000" />
+        </shape>
+    </item>
+</layer-list>

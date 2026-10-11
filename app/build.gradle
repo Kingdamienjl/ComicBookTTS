@@ -88,12 +88,21 @@ dependencies {
     
     // ML Kit for text recognition
     implementation 'com.google.mlkit:text-recognition:16.0.0'
+
+    // Tesseract OCR for secondary validation (dual-engine OCR, Phase 3)
+    implementation 'com.rmtheis:tess-two:9.1.0'
+
+    // On-device TTS via Sherpa-ONNX (offline narrator, no server dependency)
+    implementation 'com.k2fsa.sherpa.onnx:sherpa-onnx:1.10.28'
     
     // Permissions
     implementation 'androidx.activity:activity-ktx:1.6.1'
     
     // Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
+
+    // WorkManager for background TTS pre-generation
+    implementation 'androidx.work:work-runtime-ktx:2.8.1'
     
     // Testing dependencies
     testImplementation 'junit:junit:4.13.2'

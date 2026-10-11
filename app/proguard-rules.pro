@@ -121,3 +121,19 @@
 -printmapping mapping.txt
 -printseeds seeds.txt
 -printusage usage.txt
+# Keep Tesseract OCR classes (Phase 3: Dual-engine OCR)
+-keep class com.googlecode.tesseract.android.** { *; }
+-keep class com.googlecode.leptonica.android.** { *; }
+-keepclassmembers class com.googlecode.tesseract.android.** { *; }
+-dontwarn com.googlecode.tesseract.**
+-dontwarn com.googlecode.leptonica.**
+
+# Keep Encrypted SharedPreferences (Phase 2: Secure API key storage)
+-keep class androidx.security.crypto.** { *; }
+-keep class com.google.crypto.tink.** { *; }
+-dontwarn androidx.security.crypto.**
+-dontwarn com.google.crypto.tink.**
+
+# Keep Sherpa-ONNX TTS classes (on-device narrator)
+-keep class com.k2fsa.sherpa.onnx.** { *; }
+-dontwarn com.k2fsa.sherpa.onnx.**

@@ -13,33 +13,38 @@ import android.view.animation.BounceInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import com.example.comicbooktts.databinding.ActivitySplashBinding
 
+/**
+ * Splash screen with immersive comic-book animations.
+ * Rebuilt 2026-10-11 from IMPLEMENTATION_SUMMARY_2026-01.md spec:
+ * - Logo burst: scale 0→1.5→1 + 360° rotation (1000ms)
+ * - Logo: scale 0→1.3→1 + -180°→0° rotation, bounce (1200ms)
+ * - Title bubble: scale 0→1.2→1, bounce (800ms, delay 800ms)
+ * - Subtitle bubble: scale 0→1.1→1, bounce (800ms, delay 1200ms)
+ * - Loading: pulsing alpha + scale (infinite)
+ * - 5 comic effects: explosive staggered entrances
+ */
 class SplashActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySplashBinding
-    private val splashDuration = 4000L // 4 seconds for better animation experience
+    private val splashDuration = 4500L // 4.5s for full animation sequence
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
+
         try {
             Log.d("SplashActivity", "Creating splash screen...")
             binding = ActivitySplashBinding.inflate(layoutInflater)
             setContentView(binding.root)
-            
-            // Hide system UI for immersive experience
+
             hideSystemUI()
-            
-            // Start animations
             startSplashAnimations()
-            
-            // Navigate to MainActivity after delay
+
             Handler(Looper.getMainLooper()).postDelayed({
                 navigateToMainActivity()
             }, splashDuration)
-            
+
         } catch (e: Exception) {
             Log.e("SplashActivity", "Error in splash screen: ${e.message}", e)
-            // If splash fails, go directly to main activity
             navigateToMainActivity()
         }
     }
@@ -58,57 +63,67 @@ class SplashActivity : AppCompatActivity() {
 
     private fun startSplashAnimations() {
         try {
-            // Logo animation - dramatic entrance with rotation
+            // Logo burst: scale 0→1.5→1 + 360° rotation (1000ms)
+            val burstScaleX = ObjectAnimator.ofFloat(binding.ivLogoBurst, "scaleX", 0f, 1.5f, 1f)
+            val burstScaleY = ObjectAnimator.ofFloat(binding.ivLogoBurst, "scaleY", 0f, 1.5f, 1f)
+            val burstAlpha = ObjectAnimator.ofFloat(binding.ivLogoBurst, "alpha", 0f, 1f)
+            val burstRotation = ObjectAnimator.ofFloat(binding.ivLogoBurst, "rotation", 0f, 360f)
+            AnimatorSet().apply {
+                playTogether(burstScaleX, burstScaleY, burstAlpha, burstRotation)
+                duration = 1000
+                interpolator = AccelerateDecelerateInterpolator()
+                start()
+            }
+
+            // Logo: scale 0→1.3→1 + -180°→0° rotation with bounce (1200ms)
             val logoScaleX = ObjectAnimator.ofFloat(binding.ivLogo, "scaleX", 0f, 1.3f, 1f)
             val logoScaleY = ObjectAnimator.ofFloat(binding.ivLogo, "scaleY", 0f, 1.3f, 1f)
             val logoAlpha = ObjectAnimator.ofFloat(binding.ivLogo, "alpha", 0f, 1f)
             val logoRotation = ObjectAnimator.ofFloat(binding.ivLogo, "rotation", -180f, 0f)
-
-            val logoAnimatorSet = AnimatorSet().apply {
+            AnimatorSet().apply {
                 playTogether(logoScaleX, logoScaleY, logoAlpha, logoRotation)
                 duration = 1200
                 interpolator = BounceInterpolator()
+                start()
             }
 
-            // Title animation - slide in from top
-            val titleTranslation = ObjectAnimator.ofFloat(binding.tvAppTitle, "translationY", -200f, 0f)
-            val titleAlpha = ObjectAnimator.ofFloat(binding.tvAppTitle, "alpha", 0f, 1f)
-            
-            val titleAnimatorSet = AnimatorSet().apply {
-                playTogether(titleTranslation, titleAlpha)
-                duration = 800
-                startDelay = 500
-                interpolator = AccelerateDecelerateInterpolator()
-            }
-
-            // Subtitle animation - slide in from bottom
-            val subtitleTranslation = ObjectAnimator.ofFloat(binding.tvSubtitle, "translationY", 200f, 0f)
-            val subtitleAlpha = ObjectAnimator.ofFloat(binding.tvSubtitle, "alpha", 0f, 1f)
-            
-            val subtitleAnimatorSet = AnimatorSet().apply {
-                playTogether(subtitleTranslation, subtitleAlpha)
+            // Title bubble: scale 0→1.2→1 with bounce (800ms, delay 800ms)
+            val titleScaleX = ObjectAnimator.ofFloat(binding.titleBubbleContainer, "scaleX", 0f, 1.2f, 1f)
+            val titleScaleY = ObjectAnimator.ofFloat(binding.titleBubbleContainer, "scaleY", 0f, 1.2f, 1f)
+            val titleAlpha = ObjectAnimator.ofFloat(binding.titleBubbleContainer, "alpha", 0f, 1f)
+            AnimatorSet().apply {
+                playTogether(titleScaleX, titleScaleY, titleAlpha)
                 duration = 800
                 startDelay = 800
-                interpolator = AccelerateDecelerateInterpolator()
+                interpolator = BounceInterpolator()
+                start()
             }
 
-            // Loading animation - fade in
-            val loadingAlpha = ObjectAnimator.ofFloat(binding.tvLoading, "alpha", 0f, 1f)
-            loadingAlpha.apply {
+            // Subtitle bubble: scale 0→1.1→1 with bounce (800ms, delay 1200ms)
+            val subScaleX = ObjectAnimator.ofFloat(binding.subtitleBubbleContainer, "scaleX", 0f, 1.1f, 1f)
+            val subScaleY = ObjectAnimator.ofFloat(binding.subtitleBubbleContainer, "scaleY", 0f, 1.1f, 1f)
+            val subAlpha = ObjectAnimator.ofFloat(binding.subtitleBubbleContainer, "alpha", 0f, 1f)
+            AnimatorSet().apply {
+                playTogether(subScaleX, subScaleY, subAlpha)
+                duration = 800
+                startDelay = 1200
+                interpolator = BounceInterpolator()
+                start()
+            }
+
+            // Loading text: fade in then pulse
+            val loadingAlpha = ObjectAnimator.ofFloat(binding.tvLoading, "alpha", 0f, 1f).apply {
                 duration = 500
                 startDelay = 1500
+                start()
             }
+            loadingAlpha.addListener(object : android.animation.AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: android.animation.Animator) {
+                    startLoadingPulse()
+                }
+            })
 
-            // Start all animations
-            logoAnimatorSet.start()
-            titleAnimatorSet.start()
-            subtitleAnimatorSet.start()
-            loadingAlpha.start()
-            
-            // Add pulsing effect to loading text
-            startLoadingPulse()
-
-            // Animate comic book effects
+            // Comic effects: explosive staggered entrances
             startComicEffectsAnimation()
 
         } catch (e: Exception) {
@@ -118,46 +133,25 @@ class SplashActivity : AppCompatActivity() {
 
     private fun startComicEffectsAnimation() {
         try {
-            // Animate POW! effect
-            val powScale = ObjectAnimator.ofFloat(binding.tvEffect1, "scaleX", 0.5f, 1.2f, 1f)
-            val powScaleY = ObjectAnimator.ofFloat(binding.tvEffect1, "scaleY", 0.5f, 1.2f, 1f)
-            val powAlpha = ObjectAnimator.ofFloat(binding.tvEffect1, "alpha", 0f, 1f, 0.7f)
-
-            val powAnimator = AnimatorSet().apply {
-                playTogether(powScale, powScaleY, powAlpha)
-                duration = 800
-                startDelay = 1200
-                interpolator = BounceInterpolator()
+            val effects = listOf(
+                Triple(binding.tvEffectPow, 1400L, 0.7f),
+                Triple(binding.tvEffectBoom, 1800L, 0.7f),
+                Triple(binding.tvEffectZap, 2200L, 0.7f),
+                Triple(binding.tvEffectWham, 2600L, 0.7f),
+                Triple(binding.tvEffectKapow, 3000L, 0.8f)
+            )
+            for ((view, delay, endAlpha) in effects) {
+                val sx = ObjectAnimator.ofFloat(view, "scaleX", 0.2f, 1.4f, 1f)
+                val sy = ObjectAnimator.ofFloat(view, "scaleY", 0.2f, 1.4f, 1f)
+                val alpha = ObjectAnimator.ofFloat(view, "alpha", 0f, 1f, endAlpha)
+                AnimatorSet().apply {
+                    playTogether(sx, sy, alpha)
+                    duration = 600
+                    startDelay = delay
+                    interpolator = BounceInterpolator()
+                    start()
+                }
             }
-
-            // Animate BOOM! effect
-            val boomScale = ObjectAnimator.ofFloat(binding.tvEffect2, "scaleX", 0.3f, 1.3f, 1f)
-            val boomScaleY = ObjectAnimator.ofFloat(binding.tvEffect2, "scaleY", 0.3f, 1.3f, 1f)
-            val boomAlpha = ObjectAnimator.ofFloat(binding.tvEffect2, "alpha", 0f, 1f, 0.7f)
-
-            val boomAnimator = AnimatorSet().apply {
-                playTogether(boomScale, boomScaleY, boomAlpha)
-                duration = 600
-                startDelay = 1800
-                interpolator = AccelerateDecelerateInterpolator()
-            }
-
-            // Animate ZAP! effect
-            val zapScale = ObjectAnimator.ofFloat(binding.tvEffect3, "scaleX", 0.4f, 1.1f, 1f)
-            val zapScaleY = ObjectAnimator.ofFloat(binding.tvEffect3, "scaleY", 0.4f, 1.1f, 1f)
-            val zapAlpha = ObjectAnimator.ofFloat(binding.tvEffect3, "alpha", 0f, 1f, 0.6f)
-
-            val zapAnimator = AnimatorSet().apply {
-                playTogether(zapScale, zapScaleY, zapAlpha)
-                duration = 700
-                startDelay = 2400
-                interpolator = BounceInterpolator()
-            }
-
-            powAnimator.start()
-            boomAnimator.start()
-            zapAnimator.start()
-
         } catch (e: Exception) {
             Log.e("SplashActivity", "Error animating comic effects: ${e.message}")
         }
@@ -165,12 +159,23 @@ class SplashActivity : AppCompatActivity() {
 
     private fun startLoadingPulse() {
         try {
-            val pulseAnimation = ObjectAnimator.ofFloat(binding.tvLoading, "alpha", 0.3f, 1f)
-            pulseAnimation.apply {
+            val pulseAlpha = ObjectAnimator.ofFloat(binding.tvLoading, "alpha", 0.3f, 1f).apply {
                 duration = 800
                 repeatCount = ObjectAnimator.INFINITE
                 repeatMode = ObjectAnimator.REVERSE
-                startDelay = 2000
+            }
+            val pulseScale = ObjectAnimator.ofFloat(binding.tvLoading, "scaleX", 0.95f, 1.05f).apply {
+                duration = 800
+                repeatCount = ObjectAnimator.INFINITE
+                repeatMode = ObjectAnimator.REVERSE
+            }
+            val pulseScaleY = ObjectAnimator.ofFloat(binding.tvLoading, "scaleY", 0.95f, 1.05f).apply {
+                duration = 800
+                repeatCount = ObjectAnimator.INFINITE
+                repeatMode = ObjectAnimator.REVERSE
+            }
+            AnimatorSet().apply {
+                playTogether(pulseAlpha, pulseScale, pulseScaleY)
                 start()
             }
         } catch (e: Exception) {
@@ -184,8 +189,6 @@ class SplashActivity : AppCompatActivity() {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
-            
-            // Add transition animation
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         } catch (e: Exception) {
             Log.e("SplashActivity", "Error navigating to MainActivity: ${e.message}")
