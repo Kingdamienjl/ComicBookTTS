@@ -11,6 +11,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.comicbooktts.databinding.ActivityReaderBinding
 import com.example.comicbooktts.utils.ComicArchiveExtractor
 import com.example.comicbooktts.utils.HybridTTS
+import com.example.comicbooktts.utils.NarratorReader
 import com.example.comicbooktts.utils.PreferenceManager
 import com.example.comicbooktts.utils.TextRecognitionHelper
 import kotlinx.coroutines.*
@@ -23,6 +24,7 @@ class ReaderActivity : AppCompatActivity() {
     private lateinit var comicExtractor: ComicArchiveExtractor
     private lateinit var textRecognitionHelper: TextRecognitionHelper
     private lateinit var tts: HybridTTS
+    private lateinit var narratorReader: NarratorReader
     private lateinit var preferenceManager: PreferenceManager
     
     private var comicPages = listOf<String>()
@@ -75,8 +77,15 @@ class ReaderActivity : AppCompatActivity() {
                     comicExtractor = ComicArchiveExtractor(this)
                     textRecognitionHelper = TextRecognitionHelper(this)
                     tts = HybridTTS(this)
+                    narratorReader = NarratorReader(this)
                     preferenceManager = PreferenceManager(this)
                     Log.d(TAG, "All utilities initialized successfully")
+
+                    // Warm up on-device narrator in background (non-blocking)
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        val ready = narratorReader.warmUp()
+                        Log.i(TAG, "Narrator warm-up: ready=$ready")
+                    }
                 } catch (e: Exception) {
                     logError("UTILITY_INIT", "Failed to initialize utilities: ${e.message}", e)
                     showUserMessage("Error initializing app components", isError = true)
@@ -153,6 +162,10 @@ class ReaderActivity : AppCompatActivity() {
                 if (::tts.isInitialized) {
                     tts.cleanup()
                     Log.d(TAG, "TTS cleanup completed")
+                }
+                if (::narratorReader.isInitialized) {
+                    narratorReader.release()
+                    Log.d(TAG, "Narrator cleanup completed")
                 } else {
                     Log.w(TAG, "TTS not initialized, skipping cleanup")
                 }
@@ -364,6 +377,9 @@ class ReaderActivity : AppCompatActivity() {
                             }
                             
                             currentPage = position
+
+                            // Pre-generate narrator audio for upcoming pages (background)
+                            preGenerateUpcomingPages(position)
                             
                             // If auto-play is enabled, read the new page
                             if (autoPlayEnabled && !isProcessing) {
@@ -1004,6 +1020,35 @@ class ReaderActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Background pre-generation: OCR the next 3 pages and enqueue TTS synthesis
+     * so narration is cached before the user gets there. Fully offline.
+     */
+    private fun preGenerateUpcomingPages(fromPosition: Int) {
+        try {
+            lifecycleScope.launch(Dispatchers.IO) {
+                val upcoming = (fromPosition + 1..fromPosition + 3)
+                    .filter { it in comicPages.indices }
+                    .mapNotNull { idx ->
+                        try {
+                            val path = comicPages[idx]
+                            if (path.isBlank() || !java.io.File(path).exists()) null
+                            else textRecognitionHelper.extractTextFromImage(path)
+                                .takeIf { it.isNotBlank() }
+                        } catch (e: Exception) {
+                            Log.w(TAG, "pre-gen OCR failed for page $idx: ${e.message}")
+                            null
+                        }
+                    }
+                if (upcoming.isNotEmpty() && ::narratorReader.isInitialized) {
+                    narratorReader.preGenerateUpcoming(upcoming)
+                }
+            }
+        } catch (e: Exception) {
+            Log.w(TAG, "preGenerateUpcomingPages failed: ${e.message}")
+        }
+    }
+
     private fun readCurrentPage() {
         // Validation checks
         if (currentPage >= comicPages.size) {
@@ -1080,44 +1125,42 @@ class ReaderActivity : AppCompatActivity() {
                             return@withContext
                         }
 
-                        Log.d(TAG, "Starting TTS for extracted text (${extractedText.length} chars)...")
+                        Log.d(TAG, "Starting narrator for extracted text (${extractedText.length} chars)...")
 
-                        // Send text to TTS with enhanced reliability
+                        // Narrator: cache → on-device Sherpa-ONNX → HybridTTS fallback
                         try {
-                            tts.speak(extractedText, object : HybridTTS.TTSCallback {
-                                override fun onStart() {
-                                    Log.d(TAG, "TTS started successfully for page $currentPage")
-                                    showLoading(false)
-                                }
+                            lifecycleScope.launch(Dispatchers.IO) {
+                                narratorReader.narrate(extractedText, object : NarratorReader.PlaybackCallback {
+                                    override fun onStart() {
+                                        Log.d(TAG, "Narrator started for page $currentPage")
+                                        showLoading(false)
+                                    }
 
-                                override fun onComplete() {
-                                    Log.d(TAG, "TTS completed for page $currentPage")
-                                    successfulTtsOperations++
-                                    isProcessing = false
+                                    override fun onComplete() {
+                                        Log.d(TAG, "Narrator completed for page $currentPage")
+                                        successfulTtsOperations++
+                                        isProcessing = false
 
-                                    // If auto-play is enabled, move to next page
-                                    if (autoPlayEnabled && currentPage < comicPages.size - 1) {
-                                        try {
-                                            binding.viewPager.currentItem = currentPage + 1
-                                        } catch (e: Exception) {
-                                            logError("PAGE_READ", "Error auto-advancing page: ${e.message}", e, currentPage)
+                                        // If auto-play is enabled, move to next page
+                                        if (autoPlayEnabled && currentPage < comicPages.size - 1) {
+                                            try {
+                                                binding.viewPager.currentItem = currentPage + 1
+                                            } catch (e: Exception) {
+                                                logError("PAGE_READ", "Error auto-advancing page: ${e.message}", e, currentPage)
+                                            }
                                         }
                                     }
-                                }
-                                
-                                override fun onError(message: String) {
-                                    logError("TTS_ERROR", "TTS error on page $currentPage: $message", null, currentPage)
-                                    showUserMessage("Text-to-speech error: $message", isError = true)
-                                    isProcessing = false
-                                    showLoading(false)
-                                }
 
-                                override fun onEngineChanged(engine: String) {
-                                    Log.d(TAG, "TTS Engine changed to: $engine")
-                                }
-                            })
+                                    override fun onError(message: String) {
+                                        logError("TTS_ERROR", "Narrator error on page $currentPage: $message", null, currentPage)
+                                        showUserMessage("Text-to-speech error: $message", isError = true)
+                                        isProcessing = false
+                                        showLoading(false)
+                                    }
+                                })
+                            }
                         } catch (e: Exception) {
-                            logError("TTS_INIT", "Error initializing TTS for page $currentPage: ${e.message}", e, currentPage)
+                            logError("TTS_INIT", "Error starting narrator for page $currentPage: ${e.message}", e, currentPage)
                             showUserMessage("Error starting text-to-speech", isError = true)
                             isProcessing = false
                             showLoading(false)
